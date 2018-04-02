@@ -38,21 +38,14 @@ function swapPhoto() {
 	//Access the img element and replace its source
 	//with a new image from your images array which is loaded 
 	//from the JSON string
-	console.log('swap photo');
+	//console.log('swap photo');
 }
 function galleryImage(imgPath, imgLocation, description, date) {
-    //implement me as an object to hold the following data about an image:
     this.imgPath = imgPath;
     this.imgLocation = imgLocation;
     this.description = description;
     this.date = date;
-    //1. location where photo was taken
-    //2. description of photo
-    //3. the date when the photo was taken
-    //4. either a String (src URL) or an an HTMLImageObject (bitmap of the photo. https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement)
-}
-
-var GalImage = galleryImage(mImages[0],mImages[1],mImages[2],mImages[3]);
+   }
 // Counter for the mImages array
     var mCurrentIndex = 0;
 // XMLHttpRequest variable
@@ -65,12 +58,13 @@ var GalImage = galleryImage(mImages[0],mImages[1],mImages[2],mImages[3]);
     var mURL = "images.json";
     var mRequest = new XMLHttpRequest();
     mRequest.onReadyStateChange = function() {
-// Do something interesting if file is opened successfully
             if (mRequest.readyState === 4 && mRequest.status === 200) {
                 try {
                     mJson = JSON.parse(mRequest.responseText);
-// Let’s print out the JSON; It will likely show as "obj"
-                    console.log(mJson);
+                    for (var i = 0, i< mJson.length,i++){}
+                    mImages.push(new galleryImage(mJson.images[i].imgPath,mJson.images[i].imgLocation,mJson.images[i].description,mJson.images[i].date));
+                }
+                console.log(mJson);
                 } catch(err) {
                     console.log(err.message)
                 }
@@ -78,6 +72,7 @@ var GalImage = galleryImage(mImages[0],mImages[1],mImages[2],mImages[3]);
         };
     mRequest.open("GET", mURL , true);
     mRequest.send();
+
 
 //You can optionally use the following function as your event callback for loading the source of Images from your json data (for HTMLImageObject).
 //@param A GalleryImage object. Use this method for an event handler for loading a gallery Image object (optional).
