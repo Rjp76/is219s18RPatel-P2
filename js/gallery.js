@@ -33,6 +33,7 @@ function animate() {
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
 
 function swapPhoto() {
+    $('#slideShow').
 	//Add code here to access the #slideShow element.
 	//Access the img element and replace its source
 	//with a new image from your images array which is loaded 
@@ -49,7 +50,9 @@ function galleryImage(imgPath, imgLocation, description, date) {
     //2. description of photo
     //3. the date when the photo was taken
     //4. either a String (src URL) or an an HTMLImageObject (bitmap of the photo. https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement)
+}
 
+var GalImage = galleryImage(mImages[0],mImages[1],mImages[2],mImages[3]);
 // Counter for the mImages array
     var mCurrentIndex = 0;
 // XMLHttpRequest variable
@@ -59,10 +62,21 @@ function galleryImage(imgPath, imgLocation, description, date) {
     var mJson;
 // URL for the JSON to load by default
 // Some options for you are: images.json, images.short.json; you will need to create your own extra.json later
-    var mURL = "../images.json";
+    var mURL = "images.json";
     var mRequest = new XMLHttpRequest();
     mRequest.onReadyStateChange = function() {
-    mRequest.open("GET",mURL, true);
+// Do something interesting if file is opened successfully
+            if (mRequest.readyState === 4 && mRequest.status === 200) {
+                try {
+                    mJson = JSON.parse(mRequest.responseText);
+// Let’s print out the JSON; It will likely show as "obj"
+                    console.log(mJson);
+                } catch(err) {
+                    console.log(err.message)
+                }
+            }
+        };
+    mRequest.open("GET", mURL , true);
     mRequest.send();
 
 //You can optionally use the following function as your event callback for loading the source of Images from your json data (for HTMLImageObject).
@@ -78,6 +92,7 @@ function galleryImage(imgPath, imgLocation, description, date) {
 
         // This initially hides the photos' metadata information
         $('.details').eq(0).hide();
+        console.log(mJson);
 
     });
 
@@ -86,5 +101,5 @@ function galleryImage(imgPath, imgLocation, description, date) {
         console.log('window loaded');
 
     }, false);
-}
+
 
