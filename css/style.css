@@ -53,10 +53,16 @@ body {
 	height: 42px;
 	width: 42px;
 }
+#prevPhoto:hover{
+	opacity: .8;
+}
 
 #nextPhoto {
 	height: 42px;
 	width: 42px;
+}
+#nextPhoto:hover{
+	opacity: .8;
 }
 
 .details p {

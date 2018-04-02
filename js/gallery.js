@@ -91,7 +91,7 @@ function galleryImage(imgPath, imgLocation, description, date) {
     }
 
     $(document).ready(function () {
-        $('.details').hide();
+        $('.details').show();
         animate();
 
     });
