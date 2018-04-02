@@ -33,12 +33,20 @@ function animate() {
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
 
 function swapPhoto() {
-    $('#slideShow').
+ $('div#slideShow img').attr('src', mImages[mCurrentIndex].imgPath);
+ $('.details #location').text('Location: '+ mImages[mCurrentIndex].imgLocation);
+ $('.details #description').text("Description: " + mImages[mCurrentIndex].description);
+ $('.details #date').text("Date: "+ mImages[mCurrentIndex].date);
 	//Add code here to access the #slideShow element.
 	//Access the img element and replace its source
 	//with a new image from your images array which is loaded 
 	//from the JSON string
 	//console.log('swap photo');
+    if (mCurrentIndex === mImages.length){
+        mCurrentIndex = 0;
+    } else {
+        mCurrentIndex+=1;
+    }
 }
 function galleryImage(imgPath, imgLocation, description, date) {
     this.imgPath = imgPath;
@@ -61,10 +69,9 @@ function galleryImage(imgPath, imgLocation, description, date) {
             if (mRequest.readyState === 4 && mRequest.status === 200) {
                 try {
                     mJson = JSON.parse(mRequest.responseText);
-                    for (var i = 0, i< mJson.length,i++){}
+                    for (var i = 0; i < mJson.images.length ; i++){
                     mImages.push(new galleryImage(mJson.images[i].imgPath,mJson.images[i].imgLocation,mJson.images[i].description,mJson.images[i].date));
                 }
-                console.log(mJson);
                 } catch(err) {
                     console.log(err.message)
                 }
@@ -84,10 +91,8 @@ function galleryImage(imgPath, imgLocation, description, date) {
     }
 
     $(document).ready(function () {
-
-        // This initially hides the photos' metadata information
-        $('.details').eq(0).hide();
-        console.log(mJson);
+        $('.details').hide();
+        animate();
 
     });
 
@@ -95,6 +100,6 @@ function galleryImage(imgPath, imgLocation, description, date) {
 
         console.log('window loaded');
 
-    }, false);
+    },true);
 
 
