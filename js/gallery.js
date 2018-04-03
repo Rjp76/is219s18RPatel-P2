@@ -39,7 +39,7 @@ function swapPhoto() {
         if(mCurrentIndex > 0) {
             mCurrentIndex--;
         } else { 
-            mCurrentIndex = mImages-1;
+            mCurrentIndex = mImages.length-1;
         };
     }else {
         if(mCurrentIndex < mImages.length-1) {
@@ -58,13 +58,9 @@ function setPhoto(){
     $('.date').text('Date: ' + mImages[mCurrentIndex].date); 
 }
 var prevClicked = false;
-var nextClicked = true;
 function goBack(){
         $('#prevPhoto').click(function(){
-            jQuery('#prevPhoto').click(function () {
-                prevClicked=true;
-                nextClicked=false;
-            });
+            prevClicked=true;
         if(mCurrentIndex === 0){
             mCurrentIndex = mImages.length-1;
             setPhoto();
@@ -72,6 +68,21 @@ function goBack(){
 
         }else{
             mCurrentIndex--;
+            setPhoto();
+            mLastFrameTime=0;
+        }
+    });
+};
+function goFor(){
+        $('#nextPhoto').click(function(){
+                prevClicked=false;
+        if(mCurrentIndex === mImages.length-1){
+            mCurrentIndex = 0;
+            setPhoto();
+            mLastFrameTime=0;
+
+        }else{
+            mCurrentIndex++;
             setPhoto();
             mLastFrameTime=0;
         }
@@ -102,6 +113,7 @@ $(document).ready( function() {
   $('.details').eq(0).hide();
   deets();
   goBack();
+  goFor();
 });
 window.addEventListener('load', function() {
     
