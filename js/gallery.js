@@ -34,10 +34,7 @@ function animate() {
 
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
 function swapPhoto() {
-    //Add code here to access the #slideShow element.
-    //Access the img element and replace its source
-    //with a new image from your images array which is loaded 
-    //from the JSON string
+
      if(mCurrentIndex < mImages.length) {
             $('.moreIndicator').click(function(){ 
                 $('.details').slideDown().toggle();
@@ -45,19 +42,24 @@ function swapPhoto() {
             mCurrentIndex++;
         } else { 
             mCurrentIndex = 0; // resets it back to zero
-        
         };
     $('.photoHolder #photo').attr("src", mImages[mCurrentIndex].image);
     $('.location').text('Location: ' + mImages[mCurrentIndex].location);
     $('.description').text('Description: ' + mImages[mCurrentIndex].description);
     $('.date').text('Date: ' + mImages[mCurrentIndex].date);
-    
-    
-       
-        
-    console.log('swap photo');
-    console.log(mImages[mCurrentIndex].description);
-    
+};
+function deets(){
+    $('.moreIndicator').click(function(){ 
+        if( $('.moreIndicator').hasClass('rot90')){
+            $('.details').slideDown();
+            $('.moreIndicator').removeClass('rot90');
+            $('.moreIndicator').addClass('rot270');
+        }else{
+            $('.details').slideUp();
+            $('.moreIndicator').removeClass('rot270');
+            $('.moreIndicator').addClass('rot90');
+        }
+    });
 };
 var mCurrentIndex = 0;
 function makegalleryImageOnloadCallback(galleryImage) {
@@ -67,10 +69,12 @@ function makegalleryImageOnloadCallback(galleryImage) {
     }
 }
 
+
 $(document).ready( function() {
     // This initially hides the photos' metadata information
   //  $('.details').eq(0).hide();
   $('.details').eq(0).show();
+  deets();
     
 });
 
