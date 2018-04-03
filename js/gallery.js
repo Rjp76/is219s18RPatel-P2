@@ -33,17 +33,23 @@ function animate() {
 }
 
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
+var mCurrentIndex = 0;
 function swapPhoto() {
-
-     if(mCurrentIndex < mImages.length) {
-            $('.moreIndicator').click(function(){ 
-                $('.details').slideDown().toggle();
-            });
+    if(prevClicked){
+        if(mCurrentIndex > 0) {
+            mCurrentIndex--;
+        } else { 
+            mCurrentIndex = mImages-1;
+        };
+    }else {
+        if(mCurrentIndex < mImages.length-1) {
             mCurrentIndex++;
         } else { 
-            mCurrentIndex = 0; // resets it back to zero
-        };
-        setPhoto();
+        mCurrentIndex = 0;
+    };
+    };
+
+        setPhoto();       
 };
 function setPhoto(){
     $('.photoHolder #photo').attr("src", mImages[mCurrentIndex].image);
@@ -85,23 +91,18 @@ function deets(){
         }
     });
 };
-var mCurrentIndex = 0;
-function makegalleryImageOnloadCallback(galleryImage) {
+
+function makeGalleryImageOnloadCallback(galleryImage) {
     return function(e) {
         galleryImage.img = e.target;
         mImages.push(galleryImage);
     }
 }
-
-
 $(document).ready( function() {
-    // This initially hides the photos' metadata information
-  //  $('.details').eq(0).hide();
-  $('.details').eq(0).show();
+  $('.details').eq(0).hide();
   deets();
-    
+  goBack();
 });
-
 window.addEventListener('load', function() {
     
     console.log('window loaded');
@@ -109,7 +110,7 @@ window.addEventListener('load', function() {
 }, false);
 
 
-function galleryImage(path, place, descrp, d) {
+function GalleryImage(path, place, descrp, d) {
     this.image = path;
     this.location = place;
     this.description = descrp;
@@ -117,10 +118,6 @@ function galleryImage(path, place, descrp, d) {
 }
 
 var mImages = [];
-
-for (var i = 0; i < mImages.length; i++) {
-console.log(mImages[i]); 
-}
 var mURL = "images.json";
 var mRequest = new XMLHttpRequest();
 mRequest.onreadystatechange = function() {
@@ -133,7 +130,7 @@ mRequest.onreadystatechange = function() {
                 var loca = mJson.images[i].imgLocation;
                 var desc = mJson.images[i].description;
                 var d = mJson.images[i].date;
-                mImages.push(new galleryImage(imgloc, loca, desc, d));
+                mImages.push(new GalleryImage(imgloc, loca, desc, d));
             }
             console.log(mJson);
         } catch(err) {
