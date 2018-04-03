@@ -43,13 +43,37 @@ function swapPhoto() {
         } else { 
             mCurrentIndex = 0; // resets it back to zero
         };
+        setPhoto();
+};
+function setPhoto(){
     $('.photoHolder #photo').attr("src", mImages[mCurrentIndex].image);
     $('.location').text('Location: ' + mImages[mCurrentIndex].location);
     $('.description').text('Description: ' + mImages[mCurrentIndex].description);
-    $('.date').text('Date: ' + mImages[mCurrentIndex].date);
+    $('.date').text('Date: ' + mImages[mCurrentIndex].date); 
+}
+var prevClicked = false;
+var nextClicked = true;
+function goBack(){
+        $('#prevPhoto').click(function(){
+            jQuery('#prevPhoto').click(function () {
+                prevClicked=true;
+                nextClicked=false;
+            });
+        if(mCurrentIndex === 0){
+            mCurrentIndex = mImages.length-1;
+            setPhoto();
+            mLastFrameTime=0;
+
+        }else{
+            mCurrentIndex--;
+            setPhoto();
+            mLastFrameTime=0;
+        }
+    });
 };
 function deets(){
     $('.moreIndicator').click(function(){ 
+        console.log(mCurrentIndex);
         if( $('.moreIndicator').hasClass('rot90')){
             $('.details').slideDown();
             $('.moreIndicator').removeClass('rot90');
