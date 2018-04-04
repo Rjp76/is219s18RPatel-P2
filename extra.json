@@ -1,0 +1,34 @@
+{
+    "images": [
+        {
+            "imgPath": "img/places/InTheClouds.jpg",
+            "imgLocation": "Above the Air",
+            "description": "Don't really remember where I was going",
+            "date": "02/12/2013"
+        },
+        {
+            "imgPath": "img/places/AustriaMountains.jpg",
+            "imgLocation": "Austria",
+            "description": "We were in a ski resort in the off season.",
+            "date": "04/12/2016"
+        },
+        {
+            "imgPath": "img/places/germany.jpg",
+            "imgLocation": "Germany ",
+            "description": "trip last stop",
+            "date": "03/16/2016"
+        },
+        {
+            "imgPath": "img/places/tokyo.jpg",
+            "imgLocation": "Tokyo, Japan",
+            "description": "From the Sky Tree",
+            "date": "04/13/2014"
+        },
+        {
+            "imgPath": "img/places/capri.jpg",
+            "imgLocation": "Capri ",
+            "description": "The water's as clear as anything",
+            "date": "07/21/2014"
+        }
+  ]
+}
