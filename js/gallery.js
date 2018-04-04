@@ -33,104 +33,35 @@ function animate() {
 }
 
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
-var mCurrentIndex = 0;
-function swapPhoto() {
-    if(prevClicked){
-        if(mCurrentIndex > 0) {
-            mCurrentIndex--;
-        } else { 
-            mCurrentIndex = mImages.length-1;
-        };
-    }else {
-        if(mCurrentIndex < mImages.length-1) {
-            mCurrentIndex++;
-        } else { 
-        mCurrentIndex = 0;
-    };
-    };
-
-        setPhoto();       
-};
-function setPhoto(){
-    $('.photoHolder #photo').attr("src", mImages[mCurrentIndex].image);
-    $('.location').text('Location: ' + mImages[mCurrentIndex].location);
-    $('.description').text('Description: ' + mImages[mCurrentIndex].description);
-    $('.date').text('Date: ' + mImages[mCurrentIndex].date); 
-}
-var prevClicked = false;
-function goBack(){
-        $('#prevPhoto').click(function(){
-            prevClicked=true;
-        if(mCurrentIndex === 0){
-            mCurrentIndex = mImages.length-1;
-            setPhoto();
-            mLastFrameTime=0;
-
-        }else{
-            mCurrentIndex--;
-            setPhoto();
-            mLastFrameTime=0;
-        }
-    });
-};
-function goFor(){
-        $('#nextPhoto').click(function(){
-                prevClicked=false;
-        if(mCurrentIndex === mImages.length-1){
-            mCurrentIndex = 0;
-            setPhoto();
-            mLastFrameTime=0;
-
-        }else{
-            mCurrentIndex++;
-            setPhoto();
-            mLastFrameTime=0;
-        }
-    });
-};
-function deets(){
-    $('.moreIndicator').click(function(){ 
-        console.log(mCurrentIndex);
-        if( $('.moreIndicator').hasClass('rot90')){
-            $('.details').slideDown();
-            $('.moreIndicator').removeClass('rot90');
-            $('.moreIndicator').addClass('rot270');
-        }else{
-            $('.details').slideUp();
-            $('.moreIndicator').removeClass('rot270');
-            $('.moreIndicator').addClass('rot90');
-        }
-    });
-};
-
-function makeGalleryImageOnloadCallback(galleryImage) {
-    return function(e) {
-        galleryImage.img = e.target;
-        mImages.push(galleryImage);
-    }
-}
-$(document).ready( function() {
-  $('.details').eq(0).hide();
-  deets();
-  goBack();
-  goFor();
-});
-window.addEventListener('load', function() {
-    
-    console.log('window loaded');
-
-}, false);
-
-
+// Makes gallery Image Object
 function GalleryImage(path, place, descrp, d) {
     this.image = path;
     this.location = place;
     this.description = descrp;
     this.date = d;
 }
-
+//$GET request
+function getQueryParams(qs) {
+    qs = qs.split("+").join(" ");
+    var params = {},
+    tokens,
+    re = /[?&]?([^=]+)=([^&]*)/g;
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])]
+ = decodeURIComponent(tokens[2]);
+ }
+ return params;
+}
+var $_GET = getQueryParams(document.location.search + '');
+//XMLHTTP Request
 var mImages = [];
-var mURL = "images.json";
+// Some options for you are: images.json, images.short.json; you will need to create your own extra.json later
+var mURL ="";
+if ($_GET["json"]){
+    mURL = $_GET["json"];
+}else{
+   mURL = "images.json"; 
+}
 var mRequest = new XMLHttpRequest();
 mRequest.onreadystatechange = function() {
     // Do something interesting if file is opened successfully
@@ -152,3 +83,94 @@ mRequest.onreadystatechange = function() {
 };
 mRequest.open("GET",mURL, true);
 mRequest.send();
+var mCurrentIndex = 0;
+function swapPhoto() {
+    if(prevClicked){
+        if(mCurrentIndex > 0) {
+            mCurrentIndex--;
+        } else { 
+            mCurrentIndex = mImages.length-1;
+        };
+    }else {
+        if(mCurrentIndex < mImages.length-1) {
+            mCurrentIndex++;
+        } else { 
+        mCurrentIndex = 0;
+    };
+    };
+
+        setPhoto();       
+};
+//Set Photo to be displayed
+function setPhoto(){
+    $('.photoHolder #photo').attr("src", mImages[mCurrentIndex].image);
+    $('.location').text('Location: ' + mImages[mCurrentIndex].location);
+    $('.description').text('Description: ' + mImages[mCurrentIndex].description);
+    $('.date').text('Date: ' + mImages[mCurrentIndex].date); 
+}
+//cycles backwards, from 13 to 1 back to 13. also sets it to automatically go backwards
+var prevClicked = false;
+function goBack(){
+        $('#prevPhoto').click(function(){
+            prevClicked=true;
+        if(mCurrentIndex === 0){
+            mCurrentIndex = mImages.length-1;
+            setPhoto();
+            mLastFrameTime=0;
+
+        }else{
+            mCurrentIndex--;
+            setPhoto();
+            mLastFrameTime=0;
+        }
+    });
+};
+//cycles forwards, also clicks through pictures
+function goFor(){
+        $('#nextPhoto').click(function(){
+                prevClicked=false;
+        if(mCurrentIndex === mImages.length-1){
+            mCurrentIndex = 0;
+            setPhoto();
+            mLastFrameTime=0;
+
+        }else{
+            mCurrentIndex++;
+            setPhoto();
+            mLastFrameTime=0;
+        }
+    });
+};
+//hides/shows details 
+function deets(){
+    $('.moreIndicator').click(function(){ 
+        console.log(mCurrentIndex);
+        if( $('.moreIndicator').hasClass('rot90')){
+            $('.details').slideDown();
+            $('.moreIndicator').removeClass('rot90');
+            $('.moreIndicator').addClass('rot270');
+        }else{
+            $('.details').slideUp();
+            $('.moreIndicator').removeClass('rot270');
+            $('.moreIndicator').addClass('rot90');
+        }
+    });
+};
+
+function makeGalleryImageOnloadCallback(galleryImage) {
+    return function(e) {
+        galleryImage.img = e.target;
+        mImages.push(galleryImage);
+    }
+} //when doc loads, have these going/active i guess
+$(document).ready( function() {
+  $('.details').eq(0).hide();
+  deets();
+  goBack();
+  goFor();
+});
+window.addEventListener('load', function() {
+    
+    console.log('window loaded');
+
+}, false);
